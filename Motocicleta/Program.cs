@@ -1,30 +1,45 @@
-﻿
-Motocicleta.Models.Motoclicleta motocicleta = new Motocicleta.Models.Motoclicleta();
+﻿using Motocicleta.Services;
 
-Console.WriteLine("Motocicleta - escolha uma opção:  a-acelerar  f-frear s-sair");
+MotocicletaService service = new();
+
+
+Console.WriteLine("Escolha uma opção:  " +
+                    "\n\ta: acelerar  " +
+                    "\n\tf: frear " +
+                    "\n\ts: sair" +
+                    "\n");
+
+Motocicleta.Models.Motocicleta motocicleta = new();
+
+Console.WriteLine("Motocicleta ligada.");
+Console.WriteLine($"Velocidade:::: {motocicleta.Velocidade}");
+Console.WriteLine($"Marcha:::::::: {motocicleta.Marcha}");
+
+
+motocicleta.Marcha = service.AlterarMarcha(motocicleta);
 
 bool continuar = true;
 while (continuar)
 {
-    switch (Console.ReadLine())
+    switch (Console.ReadLine()?.ToLower())
     {
         case "a":
-            motocicleta.Velocidade = motocicleta.Acelerar(motocicleta.Velocidade, motocicleta.Marcha);
-            Console.WriteLine($"Velocidade aumentada para {motocicleta.Velocidade}");
-            Console.WriteLine($"Marcha atual {motocicleta.Marcha}");
+            motocicleta = service.Acelerar(motocicleta);
+            Console.WriteLine($"Velocidade:::: {motocicleta.Velocidade}");
+            Console.WriteLine($"Marcha:::::::: {motocicleta.Marcha}");
             break;
 
         case "f":
-            motocicleta.Velocidade =  motocicleta.Frear(motocicleta.Velocidade, motocicleta.Marcha);
-            Console.WriteLine($"Velocidade reduzida para {motocicleta.Velocidade}");
-            Console.WriteLine($"Marcha atual {motocicleta.Marcha}");
+            motocicleta = service.Frear(motocicleta);
+            Console.WriteLine($"Velocidade:::: {motocicleta.Velocidade}");
+            Console.WriteLine($"Marcha:::::::: {motocicleta.Marcha}");
             break;
 
         case "s":
             continuar = false;
             break;
 
-        default: Console.WriteLine("Opção inválida");
+        default: Console.WriteLine("Comando inválido.");
             break;
     }
 }
